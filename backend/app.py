@@ -13,15 +13,15 @@ import time
 app = Flask(__name__)
 
 # CORS 配置 - 允许前端访问
-# 从环境变量读取允许的域名，如果没有则允许所有
-allowed_origins = os.environ.get('ALLOWED_ORIGINS', '*')
-if allowed_origins != '*':
-    allowed_origins = allowed_origins.split(',')
-
-CORS(app, 
-     origins=allowed_origins,
-     allow_headers=['Content-Type'],
-     methods=['GET', 'POST', 'OPTIONS'])
+CORS(app,
+     resources={r"/api/*": {
+         "origins": "*",
+         "methods": ["GET", "POST", "OPTIONS"],
+         "allow_headers": ["Content-Type", "Authorization"],
+         "expose_headers": ["Content-Type"],
+         "supports_credentials": False,
+         "max_age": 3600
+     }})
 
 # DeepSeek API 配置
 DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')

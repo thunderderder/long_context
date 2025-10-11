@@ -58,7 +58,10 @@ function App() {
   const [showOutlinePrompt, setShowOutlinePrompt] = useState(false);
   const [showSectionPrompt, setShowSectionPrompt] = useState(false);
 
-  const API_BASE_URL = 'http://localhost:8000/api';
+  // 从环境变量读取 API URL，默认使用本地地址
+  const API_BASE_URL = process.env.REACT_APP_API_URL 
+    ? `${process.env.REACT_APP_API_URL}/api`
+    : 'http://localhost:8000/api';
 
   // 解析大纲中的章节（提取 ##、###、#### 等所有级别的标题）
   const parseOutlineSections = useCallback((outlineText: string): string[] => {
