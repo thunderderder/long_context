@@ -11,7 +11,17 @@ from typing import List, Dict
 import time
 
 app = Flask(__name__)
-CORS(app)
+
+# CORS 配置 - 允许前端访问
+# 从环境变量读取允许的域名，如果没有则允许所有
+allowed_origins = os.environ.get('ALLOWED_ORIGINS', '*')
+if allowed_origins != '*':
+    allowed_origins = allowed_origins.split(',')
+
+CORS(app, 
+     origins=allowed_origins,
+     allow_headers=['Content-Type'],
+     methods=['GET', 'POST', 'OPTIONS'])
 
 # DeepSeek API 配置
 DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
