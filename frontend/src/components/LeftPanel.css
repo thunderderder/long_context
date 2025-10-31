@@ -15,12 +15,53 @@
   border-bottom: 1px solid #e0e0e0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .panel-header h2 {
   font-size: 20px;
   font-weight: 600;
   margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.autosave-status {
+  font-size: 12px;
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.btn-clear {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-clear:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-clear:active {
+  transform: translateY(0);
 }
 
 .panel-content {
@@ -108,13 +149,23 @@
 }
 
 .btn-continue {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
   color: white;
 }
 
 .btn-continue:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(240, 147, 251, 0.4);
+  box-shadow: 0 4px 12px rgba(17, 153, 142, 0.4);
+}
+
+.btn-restart {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-restart:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 /* 提示词编辑区域 */
@@ -365,6 +416,81 @@
 .help-section ul li {
   list-style-type: circle;
   margin-bottom: 4px;
+}
+
+.help-tip {
+  margin-top: 12px;
+  padding: 10px;
+  background: #e8f4fd;
+  border-left: 3px solid #2196f3;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.help-tip ul {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+}
+
+.help-tip ul li {
+  margin-bottom: 4px;
+}
+
+/* 恢复状态提示 */
+.restore-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffe8a1 100%);
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.restore-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.restore-text {
+  flex: 1;
+}
+
+.restore-text strong {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.restore-text p {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+/* 生成按钮组 */
+.generation-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.generation-buttons .btn {
+  flex: 1;
 }
 
 /* 响应式 */

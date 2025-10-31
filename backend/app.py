@@ -9,6 +9,10 @@ import os
 from openai import OpenAI
 from typing import List, Dict
 import time
+from dotenv import load_dotenv
+
+# 加载 .env 文件
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -22,6 +26,16 @@ CORS(app,
          "supports_credentials": False,
          "max_age": 3600
      }})
+
+# 手动处理 OPTIONS 请求
+@app.before_request
+def handle_preflight():
+    if request.method == "OPTIONS":
+        response = app.make_default_options_response()
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        return response
 
 # DeepSeek API 配置
 DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
@@ -103,6 +117,7 @@ def generate_section():
     current_section = data.get('current_section', '')
     previous_content = data.get('previous_content', '')
     custom_prompt = data.get('custom_prompt', '')
+    section_hint = data.get('section_hint', '')  # 章节下方的专属提示词
     
     if not topic or not current_section:
         return jsonify({'error': '主题和当前章节不能为空'}), 400
@@ -110,15 +125,16 @@ def generate_section():
     # 如果用户提供了自定义提示词，使用自定义提示词
     if custom_prompt:
         # 构建上下文用于替换占位符
-        context_parts = [f"整体主题：{topic}"]
+        context_parts = []
         
         if outline:
-            context_parts.append(f"\n完整大纲：\n{outline}")
+            context_parts.append(f"完整大纲：\n{outline}")
         
         if previous_content:
             content_length = len(previous_content)
             if content_length > 3000:
-                summary_prompt = f"""请简要概括以下内容的核心要点（100字以内）：
+                # 对长内容进行摘要
+                summary_prompt = f"""请简要概括以下内容的核心要点（200字以内）：
 
 {previous_content[:1000]}
 
@@ -132,18 +148,34 @@ def generate_section():
                 ]
                 
                 try:
-                    summary_response = query_deepseek(summary_messages, stream=False, max_tokens=200)
+                    summary_response = query_deepseek(summary_messages, stream=False, max_tokens=300)
                     summary = summary_response.choices[0].message.content
-                    context_parts.append(f"\n之前内容的摘要：\n{summary}")
-                except:
-                    context_parts.append(f"\n之前内容（截取）：\n{previous_content[-1000:]}")
+                    context_parts.append(f"\n已生成内容的摘要：\n{summary}")
+                except Exception as e:
+                    print(f"生成摘要失败: {e}")
+                    context_parts.append(f"\n已生成内容（最近1000字）：\n{previous_content[-1000:]}")
             else:
                 context_parts.append(f"\n已生成的内容：\n{previous_content}")
+        else:
+            context_parts.append("\n（这是第一个章节，没有之前的内容）")
         
         context = "\n".join(context_parts)
         
         # 替换自定义提示词中的占位符
-        prompt = custom_prompt.replace('{topic}', topic).replace('{outline}', outline).replace('{current_section}', current_section).replace('{previous_content}', previous_content).replace('{context}', context)
+        prompt = custom_prompt.replace('{topic}', topic)
+        prompt = prompt.replace('{outline}', outline if outline else '')
+        prompt = prompt.replace('{current_section}', current_section)
+        prompt = prompt.replace('{previous_content}', previous_content if previous_content else '')
+        prompt = prompt.replace('{context}', context)
+        
+        # 如果有章节专属提示词，添加到提示词末尾
+        if section_hint:
+            prompt += f"\n\n针对本章节的专属要求：\n{section_hint}"
+        
+        print(f"使用自定义提示词生成章节: {current_section[:50]}...")
+        print(f"提示词长度: {len(prompt)} 字符")
+        if section_hint:
+            print(f"包含章节专属提示词: {section_hint[:100]}...")
     else:
         # 使用默认提示词
         # 构建上下文
@@ -182,7 +214,8 @@ def generate_section():
         
         context = "\n".join(context_parts)
         
-        prompt = f"""{context}
+        # 构建基础提示词
+        prompt_parts = [f"""{context}
 
 现在需要详细撰写以下部分：
 {current_section}
@@ -193,12 +226,130 @@ def generate_section():
 3. 使用 Markdown 格式
 4. 如果是第一部分，可以有引言；如果是最后一部分，可以有总结
 5. 篇幅控制在 500-800 字之间
-6. 只返回正文内容，不要包含章节标题（标题已在大纲中）
-
-现在请撰写这一部分的内容："""
+6. 只返回正文内容，不要包含章节标题（标题已在大纲中）"""]
+        
+        # 如果有章节专属提示词，添加额外要求
+        if section_hint:
+            prompt_parts.append(f"\n针对本章节的专属要求：\n{section_hint}")
+            print(f"包含章节专属提示词: {section_hint[:100]}...")
+        
+        prompt_parts.append("\n现在请撰写这一部分的内容：")
+        prompt = "".join(prompt_parts)
 
     messages = [
         {"role": "system", "content": "你是一位专业的内容创作者，擅长撰写深入、有见地的文章内容。"},
+        {"role": "user", "content": prompt}
+    ]
+    
+    def generate():
+        try:
+            response = query_deepseek(messages, stream=True)
+            for chunk in response:
+                if chunk.choices[0].delta.content:
+                    content = chunk.choices[0].delta.content
+                    yield f"data: {json.dumps({'content': content})}\n\n"
+            yield f"data: {json.dumps({'done': True})}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+    
+    return Response(generate(), mimetype='text/event-stream')
+
+
+@app.route('/api/regenerate-section', methods=['POST'])
+def regenerate_section():
+    """重新生成单个章节的内容"""
+    data = request.json
+    topic = data.get('topic', '')
+    outline = data.get('outline', '')
+    current_section = data.get('current_section', '')
+    previous_content = data.get('previous_content', '')
+    preview_context = data.get('preview_context', '')  # 原有的生成内容
+    new_prompt = data.get('new_prompt', '')  # 用户的新要求
+    section_hint = data.get('section_hint', '')  # 章节下方的专属提示词
+    
+    if not topic or not current_section or not new_prompt:
+        return jsonify({'error': '主题、当前章节和新要求不能为空'}), 400
+    
+    # 构建重新生成的提示词
+    # 构建上下文
+    context_parts = []
+    
+    if outline:
+        context_parts.append(f"完整大纲：\n{outline}")
+    
+    if previous_content:
+        content_length = len(previous_content)
+        if content_length > 3000:
+            # 对长内容进行摘要
+            summary_prompt = f"""请简要概括以下内容的核心要点（200字以内）：
+
+{previous_content[:1000]}
+
+...（中间省略）...
+
+{previous_content[-1000:]}"""
+            
+            summary_messages = [
+                {"role": "system", "content": "你是一位专业的内容总结助手。"},
+                {"role": "user", "content": summary_prompt}
+            ]
+            
+            try:
+                summary_response = query_deepseek(summary_messages, stream=False, max_tokens=300)
+                summary = summary_response.choices[0].message.content
+                context_parts.append(f"\n已生成内容的摘要：\n{summary}")
+            except Exception as e:
+                print(f"生成摘要失败: {e}")
+                context_parts.append(f"\n已生成内容（最近1000字）：\n{previous_content[-1000:]}")
+        else:
+            context_parts.append(f"\n已生成的内容：\n{previous_content}")
+    else:
+        context_parts.append("\n（这是第一个章节，没有之前的内容）")
+    
+    context = "\n".join(context_parts)
+    
+    # 使用新的提示词模板
+    prompt_parts = [f"""#角色
+你是一个交通运输与管理局工作过15年，在发展改革委评审委员会工作过10年的公务员。
+
+#写作风格和内容要求
+1. 公文风，内容详细、深入、有见地；
+2. 与之前的内容保持连贯，避免重复；
+
+#格式要求
+1. 使用 Markdown 格式
+2. 每一个段落的篇幅在500字到1200字；
+3. 只返回正文内容，不要包含章节标题（标题已在大纲中）
+
+文档主题：
+{topic}
+
+这是之前撰写的内容：
+{context}
+
+这是用户要求调整或重新撰写的章节：
+{current_section}
+
+这是原有的生成内容：
+{preview_context}
+
+这是用户的新要求：
+{new_prompt}"""]
+    
+    # 如果有章节专属提示词，添加到提示词中
+    if section_hint:
+        prompt_parts.append(f"\n\n针对本章节的专属要求（来自大纲）：\n{section_hint}")
+        print(f"包含章节专属提示词: {section_hint[:100]}...")
+    
+    prompt_parts.append("\n\n请根据用户的新要求，重新撰写或调整这个章节的内容：")
+    prompt = "".join(prompt_parts)
+    
+    print(f"重新生成章节: {current_section[:50]}...")
+    print(f"用户新要求: {new_prompt}")
+    print(f"提示词长度: {len(prompt)} 字符")
+    
+    messages = [
+        {"role": "system", "content": "你是一位专业的内容创作者，擅长撰写深入、有见地的文章内容。你能够根据用户的反馈进行调整和改进。"},
         {"role": "user", "content": prompt}
     ]
     

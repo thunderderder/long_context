@@ -18,10 +18,69 @@ body {
   background-color: #f5f5f5;
 }
 
+/* 左侧控制面板：固定宽度 */
+.left-panel {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+/* 中间章节管理：可调整宽度 */
+.compact-section-manager {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* 分隔条 */
+.resizer {
+  width: 4px;
+  background-color: #e0e0e0;
+  cursor: col-resize;
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.resizer:hover {
+  background-color: #667eea;
+}
+
+.resizer:active {
+  background-color: #764ba2;
+}
+
+/* 分隔条中间的拖拽指示器 */
+.resizer::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 1px;
+}
+
+/* 右侧编辑预览面板：占据剩余空间 */
+.editable-markdown-panel {
+  flex: 1;
+  min-width: 0; /* 防止溢出 */
+}
+
 /* 响应式布局 */
+@media (max-width: 1200px) {
+  /* 章节管理窗格保持用户设置的宽度 */
+}
+
 @media (max-width: 768px) {
   .app {
     flex-direction: column;
+  }
+  
+  .left-panel,
+  .compact-section-manager {
+    width: 100%;
+    height: auto;
   }
 }
 

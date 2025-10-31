@@ -1,3 +1,6 @@
+# 环境变量文件（包含敏感信息）
+.env
+
 # Python
 __pycache__/
 *.py[cod]
@@ -58,8 +61,8 @@ frontend/.eslintcache
 logs/
 
 # OS
-Thumbs.db
 .DS_Store
+Thumbs.db
 
 # Temporary files
 *.tmp
@@ -73,32 +76,6 @@ docker-compose.override.yml
 # Deployment
 .vercel
 .railway
-
-# 非核心文档文件（只保留README.md）
-CHECKLIST.md
-DEPLOY_CHECKLIST.md
-DEPLOYMENT_COMPLETE.md
-DEPLOYMENT_SUMMARY.md
-DEPLOYMENT.md
-GIT_SETUP.md
-PROJECT_SUMMARY.md
-QUICKDEPLOY.md
-QUICKSTART.md
-SETUP.md
-部署说明.txt
-
-# 独立Python脚本（非核心功能）
-CoT Augmented Smart LLM.py
-Diligent LLM.py
-
-# 批处理和shell脚本
-*.bat
-*.sh
-
-# Docker配置（非必需）
-docker-compose.yml
-railway.json
-vercel.json
 
 # History文件夹
 .history/

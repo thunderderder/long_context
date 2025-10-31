@@ -1,12 +1,13 @@
-.right-panel {
+.preview-panel {
+  flex: 1;
   display: flex;
   flex-direction: column;
   background: white;
   overflow: hidden;
-  border-right: 1px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0;
 }
 
-.panel-toolbar {
+.preview-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,12 +17,12 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.view-tabs {
+.preview-tabs {
   display: flex;
   gap: 8px;
 }
 
-.tab {
+.preview-tab {
   padding: 8px 16px;
   border: none;
   background: transparent;
@@ -36,65 +37,52 @@
   gap: 6px;
 }
 
-.tab:hover {
+.preview-tab:hover {
   background: #f5f5f5;
   color: #333;
 }
 
-.tab.active {
+.preview-tab.active {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
-.toolbar-actions {
+.preview-tab:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.preview-hint {
   display: flex;
-  gap: 8px;
-}
-
-.btn-icon {
-  padding: 8px 12px;
-  border: 1px solid #e0e0e0;
-  background: white;
-  cursor: pointer;
-  font-size: 16px;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #666;
+  background: #f8f9ff;
+  padding: 6px 12px;
   border-radius: 6px;
-  transition: all 0.2s;
+  border: 1px solid #e0e0e0;
 }
 
-.btn-icon:hover {
-  background: #f5f5f5;
-  border-color: #667eea;
-  transform: scale(1.05);
+.sync-icon {
+  font-size: 14px;
+  animation: rotate 2s linear infinite;
 }
 
-.btn-icon.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-color: #667eea;
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.panel-editor {
+.preview-content {
   flex: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-}
-
-.markdown-editor {
-  flex: 1;
-  width: 100%;
-  padding: 24px;
-  border: none;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 14px;
-  line-height: 1.6;
-  resize: none;
-  overflow-y: auto;
-  background: #fafafa;
-}
-
-.markdown-editor:focus {
-  outline: none;
-  background: white;
 }
 
 .markdown-preview {
@@ -103,6 +91,7 @@
   overflow-y: auto;
   line-height: 1.8;
   color: #333;
+  background: #fafafa;
 }
 
 /* Markdown 预览样式 */
@@ -224,38 +213,27 @@
 }
 
 /* 滚动条美化 */
-.markdown-editor::-webkit-scrollbar,
 .markdown-preview::-webkit-scrollbar {
   width: 8px;
 }
 
-.markdown-editor::-webkit-scrollbar-track,
 .markdown-preview::-webkit-scrollbar-track {
   background: #f5f5f5;
 }
 
-.markdown-editor::-webkit-scrollbar-thumb,
 .markdown-preview::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 4px;
 }
 
-.markdown-editor::-webkit-scrollbar-thumb:hover,
 .markdown-preview::-webkit-scrollbar-thumb:hover {
   background: #999;
 }
 
 /* 响应式 */
-@media (max-width: 768px) {
-  .panel-toolbar {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-  }
-
-  .view-tabs,
-  .toolbar-actions {
-    justify-content: center;
+@media (max-width: 1200px) {
+  .preview-panel {
+    display: none;
   }
 }
 

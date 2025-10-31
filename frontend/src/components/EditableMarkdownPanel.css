@@ -1,9 +1,9 @@
-.right-panel {
+.editable-markdown-panel {
   display: flex;
   flex-direction: column;
+  height: 100%;
   background: white;
   overflow: hidden;
-  border-right: 1px solid #e0e0e0;
 }
 
 .panel-toolbar {
@@ -14,6 +14,7 @@
   border-bottom: 1px solid #e0e0e0;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
 }
 
 .view-tabs {
@@ -70,9 +71,84 @@
 .btn-icon.active {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-color: #667eea;
+  color: white;
 }
 
-.panel-editor {
+.btn-mode {
+  padding: 8px 16px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-mode:hover {
+  background: #f5f5f5;
+  border-color: #667eea;
+  transform: scale(1.05);
+}
+
+.btn-mode.edit-mode {
+  background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
+  border-color: #52c41a;
+  color: white;
+}
+
+.btn-mode.edit-mode:hover {
+  background: linear-gradient(135deg, #73d13d 0%, #95de64 100%);
+  border-color: #73d13d;
+}
+
+.btn-mode.preview-mode {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: white;
+}
+
+.btn-mode.preview-mode:hover {
+  background: linear-gradient(135deg, #7e8ef0 0%, #8b6dbc 100%);
+  border-color: #7e8ef0;
+}
+
+.btn-toggle {
+  padding: 8px 16px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #666;
+}
+
+.btn-toggle:hover {
+  background: #f5f5f5;
+  border-color: #faad14;
+  transform: scale(1.05);
+}
+
+.btn-toggle.active {
+  background: linear-gradient(135deg, #faad14 0%, #ffc53d 100%);
+  border-color: #faad14;
+  color: white;
+}
+
+.btn-toggle.active:hover {
+  background: linear-gradient(135deg, #ffc53d 0%, #ffd666 100%);
+  border-color: #ffc53d;
+}
+
+.panel-content {
   flex: 1;
   overflow: hidden;
   display: flex;
@@ -103,6 +179,7 @@
   overflow-y: auto;
   line-height: 1.8;
   color: #333;
+  background: #fafafa;
 }
 
 /* Markdown 预览样式 */
@@ -243,19 +320,5 @@
 .markdown-editor::-webkit-scrollbar-thumb:hover,
 .markdown-preview::-webkit-scrollbar-thumb:hover {
   background: #999;
-}
-
-/* 响应式 */
-@media (max-width: 768px) {
-  .panel-toolbar {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-  }
-
-  .view-tabs,
-  .toolbar-actions {
-    justify-content: center;
-  }
 }
 

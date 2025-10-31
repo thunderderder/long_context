@@ -7,7 +7,6 @@
 ![Node](https://img.shields.io/badge/node-16+-green.svg)
 ![Docker](https://img.shields.io/badge/docker-ready-blue.svg)
 
-[快速开始](QUICKSTART.md) | [⚡快速部署](QUICKDEPLOY.md) | [📖详细部署](DEPLOYMENT.md) | [✅部署检查](DEPLOY_CHECKLIST.md) | [📋部署总结](DEPLOYMENT_SUMMARY.md)
 
 ## ✨ 功能特点
 
@@ -96,20 +95,11 @@ npm start
 
 ### 快速部署（5分钟）
 
-**方式 1: Docker 一键部署**
-```bash
-# Windows
-deploy_docker.bat
-
-# Linux/Mac
-chmod +x deploy_docker.sh && ./deploy_docker.sh
-```
-
-**方式 2: 免费云平台（推荐）**
+**方式 1: 免费云平台（推荐）**
 - **后端**: [Railway](https://railway.app) - 自动检测并部署
 - **前端**: [Vercel](https://vercel.com) - 零配置部署
 
-详细步骤请查看 **[快速部署指南](QUICKDEPLOY.md)** 或 **[完整部署文档](DEPLOYMENT.md)**
+详细步骤请查看上述说明
 
 ### 部署选项对比
 
@@ -155,7 +145,6 @@ chmod +x deploy_docker.sh && ./deploy_docker.sh
 │   │   └── index.css
 │   ├── package.json      # Node 依赖
 │   └── tsconfig.json     # TypeScript 配置
-├── CoT Augmented Smart LLM.py  # 原始 Pipeline（参考）
 └── README.md             # 项目说明
 ```
 
