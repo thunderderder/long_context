@@ -80,3 +80,7 @@ docker-compose.override.yml
 # History文件夹
 .history/
 
+# 保留启动脚本
+!start.bat
+!start.sh
+

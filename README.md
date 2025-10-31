@@ -42,19 +42,30 @@
 - Node.js 16 或更高版本
 - DeepSeek API Key（[获取地址](https://platform.deepseek.com/)）
 
-### 后端设置
+### 🚀 快速启动（推荐）
 
-1. 进入后端目录：
+**Windows:**
 ```bash
-cd backend
+start.bat
 ```
 
-2. 安装依赖：
+**Linux/Mac:**
 ```bash
-pip install -r requirements.txt
+chmod +x start.sh
+./start.sh
 ```
 
-3. 设置环境变量：
+启动脚本会自动：
+1. 检查 Python 和 Node.js 环境
+2. 安装/更新依赖
+3. 启动后端服务（http://localhost:5000）
+4. 启动前端服务（http://localhost:3000）
+
+### 手动启动
+
+#### 后端设置
+
+1. **设置 API Key**：
 ```bash
 # Windows
 set DEEPSEEK_API_KEY=your-deepseek-api-key-here
@@ -65,6 +76,16 @@ export DEEPSEEK_API_KEY=your-deepseek-api-key-here
 
 或者在 `backend/app.py` 中直接修改 `DEEPSEEK_API_KEY` 变量。
 
+2. 进入后端目录：
+```bash
+cd backend
+```
+
+3. 安装依赖：
+```bash
+pip install -r requirements.txt
+```
+
 4. 启动后端服务：
 ```bash
 python app.py
@@ -72,7 +93,7 @@ python app.py
 
 后端服务将在 `http://localhost:5000` 启动。
 
-### 前端设置
+#### 前端设置
 
 1. 进入前端目录：
 ```bash
