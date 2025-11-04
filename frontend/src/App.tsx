@@ -160,10 +160,10 @@ function App() {
   const [showEditSectionDialog, setShowEditSectionDialog] = useState(false);
   const [editSectionIndex, setEditSectionIndex] = useState<number | null>(null);
 
-  // 从环境变量读取 API URL，默认使用本地地址
+  // 从环境变量读取 API URL，默认使用相对路径（通过nginx代理）
   const API_BASE_URL = process.env.REACT_APP_API_URL 
     ? `${process.env.REACT_APP_API_URL}/api`
-    : 'http://localhost:8000/api';
+    : '/api';
 
   // 保存窗格宽度
   useEffect(() => {
