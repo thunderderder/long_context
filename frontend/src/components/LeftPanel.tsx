@@ -1,5 +1,5 @@
 import React from 'react';
-import { GenerationMode } from '../App';
+import { GenerationMode } from '../types/writing';
 import './LeftPanel.css';
 
 
@@ -31,6 +31,7 @@ interface LeftPanelProps {
   onClearState: () => void;
   hasUnfinishedTask: boolean;
   onContinueFromSaved: () => void;
+  onOpenPromptManager: () => void;  // 新增
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({
@@ -61,6 +62,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   onClearState,
   hasUnfinishedTask,
   onContinueFromSaved,
+  onOpenPromptManager,
 }) => {
   // 格式化保存时间
   const formatSaveTime = (date: Date | null) => {
@@ -79,6 +81,13 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
       <div className="panel-header">
         <h2>📝 AI 写作助手</h2>
         <div className="header-actions">
+          <button
+            className="btn-prompt-manager"
+            onClick={onOpenPromptManager}
+            title="提示词管理"
+          >
+            📚 提示词库
+          </button>
           {lastSaved && (
             <div className="autosave-status" title="自动保存已启用">
               💾 {formatSaveTime(lastSaved)}

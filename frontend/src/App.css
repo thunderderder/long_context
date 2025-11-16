@@ -14,8 +14,42 @@ body {
 
 .app {
   display: flex;
+  flex-direction: column;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #fafafa;
+}
+
+.app-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+}
+
+/* 占位符样式 - 苹果风格 */
+.settings-placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.placeholder-content {
+  text-align: center;
+}
+
+.placeholder-content h2 {
+  margin: 0 0 12px 0;
+  font-size: 28px;
+  color: #1d1d1f;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.placeholder-content p {
+  margin: 0;
+  font-size: 17px;
+  color: #86868b;
 }
 
 /* 左侧控制面板：固定宽度 */

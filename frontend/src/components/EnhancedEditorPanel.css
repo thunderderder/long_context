@@ -1,0 +1,117 @@
+/* ========== 编辑器面板主容器 ========== */
+.enhanced-editor-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  position: relative;
+}
+
+/* ========== 工具栏 ========== */
+.panel-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #fafafa;
+  border-bottom: 1px solid #e0e0e0;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.view-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tab {
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  background: #e8e8e8;
+  color: #333;
+}
+
+.tab.active {
+  background: #2383e2;
+  color: white;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+  background: #f0f0f0;
+  border-color: #2383e2;
+}
+
+/* ========== 内容区域 - 核心修复 ========== */
+.panel-content {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 强制子元素占满 */
+.panel-content > * {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ========== 提示条 ========== */
+.editor-tip {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  background: rgba(35, 131, 226, 0.95);
+  color: white;
+  border-radius: 8px;
+  font-size: 13px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.editor-tip strong {
+  font-weight: 600;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .panel-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .editor-tip {
+    left: 20px;
+    right: 20px;
+    transform: none;
+    font-size: 12px;
+  }
+}

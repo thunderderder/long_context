@@ -1,5 +1,11 @@
 # 环境变量文件（包含敏感信息）
 .env
+.env.local
+.env.production.local
+.env.development.local
+.env.test.local
+backend/.env
+frontend/.env
 
 # Python
 __pycache__/
@@ -37,15 +43,6 @@ env/
 *~
 .DS_Store
 
-# Environment variables
-.env
-.env.local
-.env.production.local
-.env.development.local
-.env.test.local
-backend/.env
-frontend/.env
-
 # Node.js
 node_modules/
 npm-debug.log*
@@ -68,6 +65,7 @@ Thumbs.db
 *.tmp
 *.temp
 .cache/
+temp_import.xlsx
 
 # Docker
 docker-compose.override.yml
@@ -80,7 +78,29 @@ docker-compose.override.yml
 # History文件夹
 .history/
 
-# 保留启动脚本
-!start.bat
-!start.sh
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+prompts.db
+
+# Excel测试文件
+backend/prompt.xlsx
+
+# 非核心文档文件（保留核心README）
+DATA_MIGRATION_FIX.md
+CLEAR_CACHE.md
+RESET_PROMPTS.md
+IMPROVEMENTS.md
+PROJECT_UI_README.md
+PROMPT_MATCH_TEST_GUIDE.md
+PROMPT_SYSTEM_README.md
+QUICK_START.md
+schedule.md
+批量生成提示词功能说明.md
+
+# 启动脚本（非核心）
+start_conda.bat
+start.bat
+start.sh
 

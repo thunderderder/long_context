@@ -1,0 +1,231 @@
+.document-list {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.document-list-empty {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.document-list-empty .empty-text {
+  font-size: 17px;
+  color: #1d1d1f;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.document-list-empty .empty-hint {
+  font-size: 14px;
+  color: #86868b;
+}
+
+.document-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.document-table thead {
+  background: #fafafa;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.document-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #666;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.document-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.document-table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+.document-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.document-table td {
+  padding: 14px 16px;
+  color: #333;
+}
+
+/* 列宽设置 */
+.col-title {
+  width: 35%;
+  min-width: 200px;
+}
+
+.col-knowledge-key {
+  width: 20%;
+  min-width: 120px;
+}
+
+.col-word-count {
+  width: 12%;
+  min-width: 80px;
+  text-align: center;
+}
+
+.col-updated {
+  width: 20%;
+  min-width: 150px;
+}
+
+.col-actions {
+  width: 13%;
+  min-width: 100px;
+  text-align: center;
+}
+
+/* 文档标题列 - 苹果风格 */
+.document-title {
+  display: flex;
+  align-items: center;
+  cursor: text;
+  padding: 4px 0;
+}
+
+.document-title-edit {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.doc-title-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: #1d1d1f;
+  flex: 1;
+  transition: color 0.2s;
+}
+
+.doc-title-input {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #0071e3;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+}
+
+.document-row:hover .doc-title-text {
+  color: #0071e3;
+}
+
+/* 知识库 Key */
+.knowledge-key-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #e6f7ff;
+  color: #1890ff;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  border: 1px solid #91d5ff;
+}
+
+.no-key {
+  color: #d9d9d9;
+  font-size: 16px;
+}
+
+/* 字数统计 */
+.word-count {
+  color: #52c41a;
+  font-weight: 500;
+}
+
+.no-content {
+  color: #d9d9d9;
+}
+
+/* 更新时间 */
+.update-time {
+  color: #999;
+  font-size: 13px;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-btn {
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  opacity: 0.7;
+}
+
+.action-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.edit-btn:hover {
+  background: #e6f7ff;
+}
+
+.delete-btn:hover {
+  background: #fff1f0;
+}
+
+/* 响应式 */
+@media (max-width: 1200px) {
+  .col-knowledge-key {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .document-table {
+    font-size: 13px;
+  }
+
+  .document-table th,
+  .document-table td {
+    padding: 10px 12px;
+  }
+
+  .col-word-count,
+  .col-updated {
+    display: none;
+  }
+
+  .col-title {
+    width: 70%;
+  }
+
+  .col-actions {
+    width: 30%;
+  }
+}
+
+/* 空状态样式优化 */
+.document-table tbody tr:only-child td {
+  border-bottom: none;
+}
+

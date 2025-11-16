@@ -25,6 +25,13 @@
   text-align: center;
 }
 
+.compact-header-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .compact-count {
   font-size: 12px;
   opacity: 0.9;
@@ -32,6 +39,130 @@
   padding: 4px 8px;
   border-radius: 10px;
   text-align: center;
+}
+
+.batch-generation-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-batch-prompts,
+.btn-continue-batch {
+  padding: 6px 12px;
+  font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.btn-batch-prompts:hover:not(:disabled),
+.btn-continue-batch:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-batch-prompts:disabled,
+.btn-continue-batch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-batch-prompts.all-generated {
+  background: rgba(82, 196, 26, 0.2);
+  border-color: rgba(82, 196, 26, 0.5);
+}
+
+.btn-batch-prompts.all-generated:hover:not(:disabled) {
+  background: rgba(82, 196, 26, 0.3);
+}
+
+.btn-continue-batch {
+  background: rgba(250, 173, 20, 0.3);
+  border-color: rgba(250, 173, 20, 0.6);
+  animation: pulse-continue 2s ease-in-out infinite;
+}
+
+.btn-continue-batch:hover:not(:disabled) {
+  background: rgba(250, 173, 20, 0.4);
+}
+
+@keyframes pulse-continue {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(250, 173, 20, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(250, 173, 20, 0);
+  }
+}
+
+.batch-progress-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  background: #52c41a;
+  border-radius: 50%;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+.progress-text {
+  font-size: 11px;
+  color: white;
+  font-weight: 500;
+}
+
+.btn-batch-control {
+  padding: 4px 8px;
+  font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s ease;
+  min-width: 28px;
+}
+
+.btn-batch-control.pause {
+  background: rgba(250, 173, 20, 0.8);
+}
+
+.btn-batch-control.pause:hover {
+  background: rgba(250, 173, 20, 1);
+  transform: translateY(-1px);
+}
+
+.btn-batch-control.cancel {
+  background: rgba(255, 77, 79, 0.8);
+}
+
+.btn-batch-control.cancel:hover {
+  background: rgba(255, 77, 79, 1);
+  transform: translateY(-1px);
 }
 
 .compact-empty {
@@ -247,5 +378,283 @@
 
 .compact-list::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+/* 提示词相关样式 */
+.compact-item {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.compact-item-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.compact-prompt-toggle {
+  padding: 4px 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.compact-prompt-toggle:hover {
+  background: rgba(102, 126, 234, 0.1);
+  transform: scale(1.1);
+}
+
+.compact-prompt-toggle.has-prompt {
+  color: #52c41a;
+}
+
+.compact-prompt-section {
+  margin-top: 8px;
+  padding: 8px;
+  padding-right: 16px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+}
+
+.prompt-edit-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prompt-textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.2s ease;
+}
+
+.prompt-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.prompt-edit-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.btn-save,
+.btn-cancel {
+  padding: 4px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-save {
+  background: #52c41a;
+  color: white;
+}
+
+.btn-save:hover {
+  background: #3da814;
+}
+
+.btn-cancel {
+  background: #d9d9d9;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #bfbfbf;
+}
+
+.prompt-display-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prompt-text {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+}
+
+.prompt-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.prompt-empty p {
+  margin: 0;
+  font-size: 12px;
+  color: #999;
+}
+
+.prompt-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.btn-edit-prompt,
+.btn-match-prompt,
+.btn-generate-prompt,
+.btn-add-prompt {
+  padding: 4px 10px;
+  font-size: 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  cursor: pointer;
+  background: white;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.btn-edit-prompt:hover:not(:disabled) {
+  border-color: #667eea;
+  color: #667eea;
+  background: #f8f9ff;
+}
+
+.btn-match-prompt:hover:not(:disabled) {
+  border-color: #1890ff;
+  color: #1890ff;
+  background: #e6f7ff;
+}
+
+.btn-generate-prompt:hover:not(:disabled) {
+  border-color: #52c41a;
+  color: #52c41a;
+  background: #f6ffed;
+}
+
+.btn-add-prompt:hover {
+  border-color: #faad14;
+  color: #faad14;
+  background: #fffbe6;
+}
+
+.btn-edit-prompt:disabled,
+.btn-match-prompt:disabled,
+.btn-generate-prompt:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== 章节间隙和添加按钮 ========== */
+.section-gap {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.section-gap.hover {
+  height: 28px;
+  background: rgba(24, 144, 255, 0.05);
+}
+
+.btn-add-section-gap {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #1890ff;
+  background: white;
+  color: #1890ff;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(24, 144, 255, 0.2);
+}
+
+.btn-add-section-gap:hover {
+  background: #1890ff;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 3px 8px rgba(24, 144, 255, 0.4);
+}
+
+/* ========== 删除按钮 ========== */
+.btn-delete-section {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #ff4d4f;
+  background: white;
+  color: #ff4d4f;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 4px;
+  padding: 0;
+  line-height: 1;
+}
+
+.btn-delete-section:hover {
+  background: #ff4d4f;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* ========== 标题编辑框 ========== */
+.title-edit-area {
+  flex: 1;
+  padding: 0 8px;
+}
+
+.title-input {
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid #1890ff;
+  border-radius: 4px;
+  font-size: 13px;
+  outline: none;
+  background: #e6f7ff;
+}
+
+.title-input:focus {
+  border-color: #40a9ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* ========== 移除序号显示 ========== */
+.compact-number {
+  display: none; /* 隐藏序号 */
+}
+
+/* ========== 调整标题显示 ========== */
+.compact-title {
+  font-size: 13px;
+  color: #333;
+  font-weight: 500;
 }
 

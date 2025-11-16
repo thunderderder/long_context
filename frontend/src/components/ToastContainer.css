@@ -1,0 +1,21 @@
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.toast-container > * {
+  pointer-events: all;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .toast-container {
+    left: 20px;
+    right: 20px;
+    top: 10px;
+  }
+}
+
